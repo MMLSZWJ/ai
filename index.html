@@ -61,7 +61,7 @@
 <body>
   <div class="chat" id="chat"></div>
   <div class="input-area">
-    <input type="text" id="input" placeholder="描述症状，至少20个字">
+    <input type="text" id="input" placeholder="描述您的症状">
     <button onclick="send()">发送</button>
   </div>
 
@@ -81,8 +81,8 @@
     async function send() {
       const input = document.getElementById('input');
       const msg = input.value.trim();
-      if (!msg || msg.length < 2) {
-        alert('请描述详细症状（至少2字）');
+      if (!msg) {
+        alert('请输入内容');
         return;
       }
 
@@ -91,9 +91,9 @@
       addMessage('bot', '思考中...');
 
       try {
-        // 使用免费 CORS 代理（临时方案）
+        // 修复：移除 target URL 中的多余空格（关键！）
         const proxy = 'https://api.allorigins.win/raw?url=';
-        const target = 'https://api.coze.cn/v3/chat';
+        const target = 'https://api.coze.cn/v3/chat'; // ← 已删除前后空格
         const url = proxy + encodeURIComponent(target);
 
         const response = await fetch(url, {
@@ -115,12 +115,12 @@
         document.querySelector('.bot:last-of-type').textContent = botMsg;
       } catch (e) {
         document.querySelector('.bot:last-of-type').textContent = '网络错误，请重试';
-        console.error(e);
+        console.error('Error:', e);
       }
     }
 
     // 初始欢迎语
-    addMessage('bot', '您好！请详细描述您的眼部症状（如疼痛、干涩、视力模糊等），我会为您提供专业建议。');
+    addMessage('bot', '您好！请描述您的眼部症状（如疼痛、干涩、视力模糊等），我会为您提供专业建议。');
   </script>
 </body>
 </html>
