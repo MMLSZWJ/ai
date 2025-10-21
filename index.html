@@ -81,8 +81,8 @@
     async function send() {
       const input = document.getElementById('input');
       const msg = input.value.trim();
-      if (!msg || msg.length < 20) {
-        alert('请描述详细症状（至少20字）');
+      if (!msg || msg.length < 2) {
+        alert('请描述详细症状（至少2字）');
         return;
       }
 
